@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         downloadJsonFile();
         getDataFromAssets();
         getDataFromInternalStorage();
+        getDataFromLargeFile();
     }
 
     public void getDataFromAssets(){
@@ -70,8 +71,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void getDataFromLargeFile(){
+        JsonUtils jsonUtils2 = new JsonUtils(this, "products.json", "");
+        jsonUtils2.processLargeJson();
+    }
+
     public void downloadJsonFile(){
-        String fileUrl = "https://sabiantart.com/apps/toleka.json";
+        String fileUrl = "https://sabiantart.com/apps/my_data.json";
         String fileName = "products.json";
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)

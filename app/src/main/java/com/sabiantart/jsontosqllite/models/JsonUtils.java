@@ -5,12 +5,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -124,6 +127,28 @@ public class JsonUtils {
         }
         Log.d("Internal Data : ", stringBuilder.toString());
         return stringBuilder.toString();
+    }
+
+    public void processLargeJson() {
+        Gson gson = new Gson();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(context.openFileInput(filename2));
+             BufferedReader reader = new BufferedReader(inputStreamReader);
+             JsonReader jsonReader = new JsonReader(reader)) {
+
+            jsonReader.beginObject(); // Start of the outer JSON object
+            if (jsonReader.nextName().equals("users")) {
+                jsonReader.beginArray(); // Start of the "users" array
+                while (jsonReader.hasNext()) {
+                    Users user = gson.fromJson(jsonReader, Users.class);
+                    System.out.println("USER ID: " + user.getId());
+                }
+                jsonReader.endArray(); // End of the "users" array
+            }
+            jsonReader.skipValue(); // End of the outer JSON object
+
+        } catch (IOException e) {
+            Log.e(String.valueOf(Level.WARNING), e.getMessage(), e);
+        }
     }
 
 
