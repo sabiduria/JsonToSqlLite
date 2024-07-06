@@ -10,15 +10,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.logging.Level;
 
 public class JsonUtils {
 
@@ -41,7 +38,7 @@ public class JsonUtils {
             is.close();
             json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.e(String.valueOf(Level.WARNING), ex.getMessage(), ex);
             return null;
         }
         return json;
@@ -69,8 +66,24 @@ public class JsonUtils {
 
                 formList.add(m_li);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException ex) {
+            Log.e(String.valueOf(Level.WARNING), ex.getMessage(), ex);
         }
     }
+
+    public FormulesResponse parseJsonToModel(String ArrayName) {
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONArray m_jArray = obj.getJSONArray(ArrayName);
+            String jsonString = String.format("{\"%s\":%s}", ArrayName, m_jArray);
+            Log.d("Array Data", jsonString);
+            Gson gson = new Gson();
+
+            return gson.fromJson(jsonString, FormulesResponse.class);
+        } catch (Exception ex) {
+            Log.e(String.valueOf(Level.WARNING), ex.getMessage(), ex);
+            return null;
+        }
+    }
+
 }
