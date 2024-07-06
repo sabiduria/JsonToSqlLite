@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        String JsonString = jsonUtils.readJsonFromInternalStorage();
+
         String fileUrl = "https://gist.githubusercontent.com/rupeshtiwari/646990984dfce33b9cbb789b769b3e27/raw/9ee25c538458b299670ea2d11215d8ea1f8213e2/products.json";
         String fileName = "products_downloaded.json";
 
