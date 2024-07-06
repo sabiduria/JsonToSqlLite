@@ -2,6 +2,7 @@ package com.sabiantart.jsontosqllite;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,12 +61,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        String fileUrl = "https://sabiantart.com/apps/my_data.json";
+        String fileUrl = "https://sabiantart.com/apps/toleka.json";
         String fileName = "products.json";
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)
-        new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName)).start();
+        //new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName)).start();
+        ProgressBar progressBar = findViewById(R.id.progressBar); // Get your ProgressBar
 
+        FileDownloader.ProgressListener listener = new FileDownloader.ProgressListener() {
+            @Override
+            public void onProgressUpdate(int progress) {
+                progressBar.setProgress(progress);
+            }
+        };
+
+        new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName, listener)).start();
     }
 
 
