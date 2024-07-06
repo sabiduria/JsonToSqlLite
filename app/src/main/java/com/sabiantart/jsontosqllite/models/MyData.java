@@ -1,6 +1,6 @@
 package com.sabiantart.jsontosqllite.models;
 
 public class MyData {
-        int id;
-        String name;
+        String formule;
+        String url;
 }

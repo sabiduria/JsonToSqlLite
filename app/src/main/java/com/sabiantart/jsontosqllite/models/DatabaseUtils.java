@@ -16,8 +16,8 @@ public class DatabaseUtils {
 
         for (MyData data : dataList) {
             ContentValues values = new ContentValues();
-            values.put("id", data.id);
-            values.put("name", data.name);
+            values.put("id", data.formule);
+            values.put("name", data.url);
             db.insert("my_data", null, values);
         }
 

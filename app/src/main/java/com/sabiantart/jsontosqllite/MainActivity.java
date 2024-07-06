@@ -8,11 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.sabiantart.jsontosqllite.models.DatabaseUtils;
 import com.sabiantart.jsontosqllite.models.JsonUtils;
-import com.sabiantart.jsontosqllite.models.MyData;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        String jsonString = JsonUtils.readJsonFromInternalStorage(this, "my_data.json");
-        List<MyData> dataList = JsonUtils.parseJson(jsonString);
-        if (dataList != null) {
-            DatabaseUtils.insertDataIntoDatabase(this, dataList);
-        }
+        JsonUtils jsonUtils = new JsonUtils(this, "my_data.json");
+        jsonUtils.readJsonFromAsset("formules");
+
     }
+
+
 }

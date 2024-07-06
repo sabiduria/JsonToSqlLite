@@ -1,0 +1,30 @@
+{
+  "formules": [
+    {
+      "formule": "Linear Motion",
+      "url": "linear-motion.com"
+    },
+    {
+      "formule": "Constant Acceleration Motion",
+      "url": "constant-acceleration-motion.org"
+    },
+    {
+      "formule": "Projectile Motion",
+      "url": "projectile-motion.com"
+    }
+  ],
+  "users": [
+    {
+      "name": "Antoine",
+      "code": "774"
+    },
+    {
+      "name": "Jonathan",
+      "code": "475"
+    },
+    {
+      "name": "Charles",
+      "code": "123"
+    }
+  ]
+}
