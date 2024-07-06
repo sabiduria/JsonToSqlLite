@@ -32,13 +32,16 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        JsonUtils jsonUtils = new JsonUtils(this, "my_data.json");
-        JsonUtils jsonUtils2 = new JsonUtils(this, "products.json", "");
-        jsonUtils.readJsonFromAsset("formules");
+        downloadJsonFile();
+        getDataFromAssets();
+        getDataFromInternalStorage();
+    }
 
+    public void getDataFromAssets(){
+        JsonUtils jsonUtils = new JsonUtils(this, "my_data.json");
+        jsonUtils.readJsonFromAsset("formules");
         FormulesResponse usersData = jsonUtils.parseJsonToModel("users", "Assets");
         FormulesResponse formulesData = jsonUtils.parseJsonToModel("formules", "Assets");
-        FormulesResponse productsData = jsonUtils2.parseJsonToModel("products", "InternalArrayed");
 
         if (usersData != null) {
             List<Users> users = usersData.users;
@@ -53,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Formule Data", "Formule : " + formule.getFormule() + ", URL: " + formule.getUrl());
             }
         }
+    }
+
+    public void getDataFromInternalStorage(){
+        JsonUtils jsonUtils2 = new JsonUtils(this, "products.json", "");
+        FormulesResponse productsData = jsonUtils2.parseJsonToModel("products", "InternalArrayed");
 
         if (productsData != null) {
             List<Products> products = productsData.products;
@@ -60,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Product Data", "Img Url : " + product.getImgUrl() + ", Name: " + product.getName() + ", Price: " + product.getPrice() + ", ID: " + product.getId());
             }
         }
+    }
 
+    public void downloadJsonFile(){
         String fileUrl = "https://sabiantart.com/apps/toleka.json";
         String fileName = "products.json";
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)
-        //new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName)).start();
         ProgressBar progressBar = findViewById(R.id.progressBar); // Get your ProgressBar
 
         FileDownloader.ProgressListener listener = new FileDownloader.ProgressListener() {
@@ -77,6 +86,4 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName, listener)).start();
     }
-
-
 }
