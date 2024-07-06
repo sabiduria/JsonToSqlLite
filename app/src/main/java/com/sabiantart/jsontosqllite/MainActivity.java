@@ -76,14 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)
         ProgressBar progressBar = findViewById(R.id.progressBar); // Get your ProgressBar
-
-        FileDownloader.ProgressListener listener = new FileDownloader.ProgressListener() {
-            @Override
-            public void onProgressUpdate(int progress) {
-                progressBar.setProgress(progress);
-            }
-        };
-
+        FileDownloader.ProgressListener listener = progressBar::setProgress;
         new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName, listener)).start();
     }
 }
