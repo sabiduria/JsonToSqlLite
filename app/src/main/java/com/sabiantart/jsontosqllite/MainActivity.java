@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.sabiantart.jsontosqllite.models.Formules;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
 import com.sabiantart.jsontosqllite.models.JsonUtils;
+import com.sabiantart.jsontosqllite.models.Products;
 import com.sabiantart.jsontosqllite.models.Users;
 import com.sabiantart.jsontosqllite.utils.FileDownloader;
 
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         JsonUtils jsonUtils = new JsonUtils(this, "my_data.json");
+        JsonUtils jsonUtils2 = new JsonUtils(this, "products.json", "");
         jsonUtils.readJsonFromAsset("formules");
 
-        FormulesResponse usersData = jsonUtils.parseJsonToModel("users");
-        FormulesResponse formulesData = jsonUtils.parseJsonToModel("formules");
+        FormulesResponse usersData = jsonUtils.parseJsonToModel("users", "Assets");
+        FormulesResponse formulesData = jsonUtils.parseJsonToModel("formules", "Assets");
+        FormulesResponse productsData = jsonUtils2.parseJsonToModel("products", "InternalArrayed");
 
         if (usersData != null) {
             List<Users> users = usersData.users;
@@ -50,10 +53,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        String JsonString = jsonUtils.readJsonFromInternalStorage();
+        if (productsData != null) {
+            List<Products> products = productsData.products;
+            for (Products product : products) {
+                Log.d("Product Data", "Img Url : " + product.getImgUrl() + ", Name: " + product.getName() + ", Price: " + product.getPrice() + ", ID: " + product.getId());
+            }
+        }
 
-        String fileUrl = "https://gist.githubusercontent.com/rupeshtiwari/646990984dfce33b9cbb789b769b3e27/raw/9ee25c538458b299670ea2d11215d8ea1f8213e2/products.json";
-        String fileName = "products_downloaded.json";
+        String fileUrl = "https://sabiantart.com/apps/my_data.json";
+        String fileName = "products.json";
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)
         new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName)).start();

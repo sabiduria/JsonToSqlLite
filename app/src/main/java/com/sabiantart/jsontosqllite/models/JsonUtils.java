@@ -22,11 +22,17 @@ import java.util.logging.Level;
 public class JsonUtils {
 
     public static String filename;
+    public static String filename2;
     @SuppressLint("StaticFieldLeak")
     public static Context context;
 
     public JsonUtils(Context _context, String _filename){
         filename = _filename;
+        context = _context;
+    }
+
+    public JsonUtils(Context _context, String _filename, String _other){
+        filename2 = _filename;
         context = _context;
     }
 
@@ -73,12 +79,25 @@ public class JsonUtils {
         }
     }
 
-    public FormulesResponse parseJsonToModel(String ArrayName) {
+    public FormulesResponse parseJsonToModel(String ArrayName, String source) {
         try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset());
-            JSONArray m_jArray = obj.getJSONArray(ArrayName);
-            String jsonString = String.format("{\"%s\":%s}", ArrayName, m_jArray);
-            Log.d("Array Data", jsonString);
+            String jsonString;
+            if (source.equals("Assets")){
+                JSONObject obj = new JSONObject(loadJSONFromAsset());
+                JSONArray m_jArray = obj.getJSONArray(ArrayName);
+                jsonString = String.format("{\"%s\":%s}", ArrayName, m_jArray);
+                Log.d("Array Data", jsonString);
+
+            } else if (source.equals("InternalSimple")){
+                jsonString = String.format("{\"%s\":%s}", ArrayName, readJsonFromInternalStorage());
+                Log.d("Internal Array Data", jsonString);
+
+            }else {
+                JSONObject obj = new JSONObject(readJsonFromInternalStorage());
+                JSONArray m_jArray = obj.getJSONArray(ArrayName);
+                jsonString = String.format("{\"%s\":%s}", ArrayName, m_jArray);
+                Log.d("Internal Array Data", jsonString);
+            }
             Gson gson = new Gson();
 
             return gson.fromJson(jsonString, FormulesResponse.class);
@@ -91,7 +110,7 @@ public class JsonUtils {
     public String readJsonFromInternalStorage() {
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(context.openFileInput("products_downloaded.json"));
+            InputStreamReader inputStreamReader = new InputStreamReader(context.openFileInput(filename2));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
