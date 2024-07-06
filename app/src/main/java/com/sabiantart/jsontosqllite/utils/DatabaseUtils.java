@@ -1,10 +1,11 @@
-package com.sabiantart.jsontosqllite.models;
+package com.sabiantart.jsontosqllite.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sabiantart.jsontosqllite.helper.MyDatabaseHelper;
+import com.sabiantart.jsontosqllite.models.MyData;
 
 import java.util.List;
 

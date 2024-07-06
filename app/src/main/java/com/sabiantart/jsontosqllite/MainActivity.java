@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.sabiantart.jsontosqllite.models.Formules;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
-import com.sabiantart.jsontosqllite.models.JsonUtils;
+import com.sabiantart.jsontosqllite.utils.JsonUtils;
 import com.sabiantart.jsontosqllite.models.Products;
 import com.sabiantart.jsontosqllite.models.Users;
 import com.sabiantart.jsontosqllite.utils.FileDownloader;
