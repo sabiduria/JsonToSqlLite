@@ -13,6 +13,7 @@ import com.sabiantart.jsontosqllite.models.Formules;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
 import com.sabiantart.jsontosqllite.models.JsonUtils;
 import com.sabiantart.jsontosqllite.models.Users;
+import com.sabiantart.jsontosqllite.utils.FileDownloader;
 
 import java.util.List;
 
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Formule Data", "Formule : " + formule.getFormule() + ", URL: " + formule.getUrl());
             }
         }
+
+        String fileUrl = "https://gist.githubusercontent.com/rupeshtiwari/646990984dfce33b9cbb789b769b3e27/raw/9ee25c538458b299670ea2d11215d8ea1f8213e2/products.json";
+        String fileName = "products_downloaded.json";
+
+        // Download the file in a background thread (using AsyncTask, Thread, etc.)
+        new Thread(() -> FileDownloader.downloadFile(MainActivity.this, fileUrl, fileName)).start();
 
     }
 
