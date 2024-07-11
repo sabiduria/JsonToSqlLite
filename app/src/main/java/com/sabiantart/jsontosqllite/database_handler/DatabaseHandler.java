@@ -10,8 +10,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    protected static final String DATABASE_NAME = "json2sqlite";
-    private static final String TABLE_USERS = "users";
+    protected static final String DATABASE_NAME = "json2sqlite.db";
+    public static final String TABLE_USERS = "users";
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS +" (id TEXT, idrole TEXT, username TEXT, password TEXT, email TEXT, avatar TEXT, prenom TEXT, nom TEXT, telephone TEXT, statut TEXT, dateinscription TEXT, iduser TEXT, datemiseajour TEXT, sexe TEXT, codeuser TEXT, rolead1 TEXT, rolead2 TEXT, rolead3 TEXT, section TEXT, langue TEXT, synced TEXT);";
 
     public DatabaseHandler(@Nullable Context context) {

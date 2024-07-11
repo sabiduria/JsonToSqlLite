@@ -3,6 +3,7 @@ package com.sabiantart.jsontosqllite;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.sabiantart.jsontosqllite.controllers.EmployeesControllers;
 import com.sabiantart.jsontosqllite.models.Cubundle;
 import com.sabiantart.jsontosqllite.models.Employees;
 import com.sabiantart.jsontosqllite.models.Formules;
@@ -78,12 +80,16 @@ public class MainActivity extends AppCompatActivity {
         //jsonUtils2.processLargeJson();
         // To get users:
         Log.d("JSON Processing", "Getting users...");
-        List<Cubundle> cubundles = jsonUtils2.processLargeJson(Cubundle.class);
-        Log.d("JSON Processing", cubundles.toString());
-        for (Cubundle cubundle : cubundles) {
-            Log.d("USER ID", String.valueOf(cubundle.getId()));
-            //Log.d("USER NAME", String.valueOf(cubundle.getUsername()));
-            // Perform other operations with the user object as needed
+        List<Employees> users = jsonUtils2.processLargeJson(Employees.class);
+        Log.d("JSON Processing", users.toString());
+        for (Employees employees : users) {
+            Log.d("USER ID", String.valueOf(employees.getId()));
+            boolean createSuccessful = new EmployeesControllers(this).create(employees);
+            if(createSuccessful){
+                Toast.makeText(this, "Employee information was saved.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Unable to save employee information.", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
