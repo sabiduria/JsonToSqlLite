@@ -5,7 +5,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.sabiantart.jsontosqllite.models.Cubundle;
+import com.sabiantart.jsontosqllite.models.Employees;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
 import com.sabiantart.jsontosqllite.models.Users;
 
@@ -17,9 +20,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 public class JsonUtils {
@@ -151,5 +156,46 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * This method processes a large JSON file and extracts a list of objects of the specified data type.
+     *
+     * @param dataType The class type of the objects to be extracted.
+     * @return A list of objects of the specified data type, or null if an error occurs.
+     */
+    public <T> List<T> processLargeJson(Class<T> dataType) {
+        Gson gson = new Gson();
+        List<T> dataList = new ArrayList<>();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(context.openFileInput(filename2));
+             BufferedReader reader = new BufferedReader(inputStreamReader);
+             JsonReader jsonReader = new JsonReader(reader)) {
+
+            jsonReader.beginObject();
+
+            while (jsonReader.hasNext()) {
+                String currentKey = jsonReader.nextName();
+                if (currentKey.equals(getArrayKeyForClass(dataType))) {
+                    Type dataListType = new TypeToken<List<Employees>>() {}.getType();
+                    dataList = gson.fromJson(jsonReader, dataListType);
+                    break; // Exit loop after finding the desired array
+                } else {
+                    jsonReader.skipValue(); // Skip other arrays or values
+                }
+            }
+
+            jsonReader.skipValue();
+
+        } catch (IOException e) {
+            Log.e("JSON Processing Error", "Error processing JSON: " + e.getMessage(), e);
+        }
+        return dataList;
+    }
+
+    private <T> String getArrayKeyForClass(Class<T> dataType) {
+        if (dataType == Cubundle.class) {
+            return "cubundle";
+        } else {
+            return "users"; // Handle unknown data types appropriately
+        }
+    }
 
 }

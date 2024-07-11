@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.sabiantart.jsontosqllite.models.Employees;
 import com.sabiantart.jsontosqllite.models.Formules;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
 import com.sabiantart.jsontosqllite.utils.JsonUtils;
@@ -32,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        downloadJsonFile();
-        getDataFromAssets();
-        getDataFromInternalStorage();
+        //downloadJsonFile();
+        //getDataFromAssets();
+        //getDataFromInternalStorage();
         getDataFromLargeFile();
     }
 
@@ -73,11 +74,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void getDataFromLargeFile(){
         JsonUtils jsonUtils2 = new JsonUtils(this, "products.json", "");
-        jsonUtils2.processLargeJson();
+        //jsonUtils2.processLargeJson();
+        // To get users:
+        Log.d("JSON Processing", "Getting users...");
+        List<Employees> cubundles = jsonUtils2.processLargeJson(Employees.class);
+        Log.d("JSON Processing", cubundles.toString());
+        for (Employees cubundle : cubundles) {
+            Log.d("USER ID", String.valueOf(cubundle.getId()));
+            Log.d("USER NAME", String.valueOf(cubundle.getUsername()));
+            // Perform other operations with the user object as needed
+        }
+
     }
 
     public void downloadJsonFile(){
-        String fileUrl = "https://sabiantart.com/apps/my_data.json";
+        String fileUrl = "https://sabiantart.com/apps/toleka.json";
         String fileName = "products.json";
 
         // Download the file in a background thread (using AsyncTask, Thread, etc.)
