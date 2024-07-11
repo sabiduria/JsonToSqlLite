@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.sabiantart.jsontosqllite.models.Cubundle;
 import com.sabiantart.jsontosqllite.models.Employees;
 import com.sabiantart.jsontosqllite.models.Formules;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         //jsonUtils2.processLargeJson();
         // To get users:
         Log.d("JSON Processing", "Getting users...");
-        List<Employees> cubundles = jsonUtils2.processLargeJson(Employees.class);
+        List<Cubundle> cubundles = jsonUtils2.processLargeJson(Cubundle.class);
         Log.d("JSON Processing", cubundles.toString());
-        for (Employees cubundle : cubundles) {
+        for (Cubundle cubundle : cubundles) {
             Log.d("USER ID", String.valueOf(cubundle.getId()));
-            Log.d("USER NAME", String.valueOf(cubundle.getUsername()));
+            //Log.d("USER NAME", String.valueOf(cubundle.getUsername()));
             // Perform other operations with the user object as needed
         }
 

@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.sabiantart.jsontosqllite.models.Cubundle;
-import com.sabiantart.jsontosqllite.models.Employees;
 import com.sabiantart.jsontosqllite.models.FormulesResponse;
 import com.sabiantart.jsontosqllite.models.Users;
 
@@ -174,8 +173,9 @@ public class JsonUtils {
             while (jsonReader.hasNext()) {
                 String currentKey = jsonReader.nextName();
                 if (currentKey.equals(getArrayKeyForClass(dataType))) {
-                    Type dataListType = new TypeToken<List<Employees>>() {}.getType();
-                    dataList = gson.fromJson(jsonReader, dataListType);
+                    //Type dataListType = new TypeToken<List<T>>() {}.getType();
+                    Type data = TypeToken.getParameterized(List.class, dataType).getType();
+                    dataList = gson.fromJson(jsonReader, data);
                     break; // Exit loop after finding the desired array
                 } else {
                     jsonReader.skipValue(); // Skip other arrays or values
